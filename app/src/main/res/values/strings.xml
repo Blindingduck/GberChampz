@@ -7,6 +7,7 @@
     <string name="ARegis">Register</string>
     <string name="BSub">Submit</string>
     <string name="BCan">Cancel</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

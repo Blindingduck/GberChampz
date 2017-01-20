@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         btnSub = (Button) regis.findViewById(R.id.btnSubmit);
         btnCan = (Button) regis.findViewById(R.id.btnCancel);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-
         edUser = (EditText) findViewById(R.id.edUser);
         edPass = (EditText) findViewById(R.id.edPass);
         edUserre = (EditText) regis.findViewById(R.id.edUserre);
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(MainActivity.this,"ยินดีต้อนรับสู่ Gber",Toast.LENGTH_LONG).show();
-                    Intent Map = new Intent(MainActivity.this,MainMap.class);
+                    Intent Map = new Intent(MainActivity.this,MapsActivity.class);
                     startActivity(Map);
                 }
             }
