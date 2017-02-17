@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button btnUser,btnRegis,btnSub,btnCan,btnLogin;
-    EditText edUser,edPass,edUserre,edPassre,edPassre2;
+    EditText edUser,edPass,edUserre,edPassre,edPassre2,edAddress;
     ImageView imLogo;
 
 
@@ -36,15 +36,27 @@ public class MainActivity extends AppCompatActivity {
         edUserre = (EditText) regis.findViewById(R.id.edUserre);
         edPassre = (EditText) regis.findViewById(R.id.edPassre);
         edPassre2 = (EditText) regis.findViewById(R.id.edPassre2);
-
+        edAddress = (EditText) regis.findViewById(R.id.edAddress);
         imLogo = (ImageView) findViewById(R.id.imLogo);
+
+        edAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent map = new Intent(MainActivity.this,MapsActivity.class);
+                map.putExtra("classAddress","Address");
+                startActivity(map);
+            }
+        });
 
 
 
         btnRegis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent get = getIntent();
+                if(get.hasExtra("MapClass")){
+                    edAddress.setText(get.getStringExtra("lat")+" : "+get.getStringExtra("lng"));
+                }
                 regis.setCancelable(false);
                 regis.show();
                 Window regissize = regis.getWindow();
