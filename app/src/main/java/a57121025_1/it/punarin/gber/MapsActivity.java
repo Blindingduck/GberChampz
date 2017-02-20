@@ -60,6 +60,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     set.putExtra("lng",position.longitude);
                     startActivity(set);
                 }
+                else if(getIntent.hasExtra("Permission_Admin")){
+
+                }
             }
         });
 
