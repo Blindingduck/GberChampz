@@ -23,9 +23,12 @@
             </intent-filter>
         </activity>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <activity android:name=".MainMap" />
         <activity android:name=".RegisterActivity"></activity>
 =======
+=======
+>>>>>>> bosschuse
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,6 +44,9 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+<<<<<<< HEAD
+>>>>>>> bosschuse
+=======
 >>>>>>> bosschuse
     </application>
 
