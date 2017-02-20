@@ -2,9 +2,11 @@ package a57121025_1.it.punarin.gber;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         final Dialog regis = new Dialog(MainActivity.this);
         regis.setContentView(R.layout.popupregister);
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 String FromPass = edPass.getText().toString();
                 List<NameValuePair> nv = new ArrayList<NameValuePair>();
                 HttpClient hc = new DefaultHttpClient();
-                HttpPost hp = new HttpPost("http//:punarin.coolpage.biz/android/login.php");
+                HttpPost hp = new HttpPost("http://punarin.coolpage.biz/android/login.php");
                 HttpResponse hr;
                 BufferedReader bf;
                 String data = "";
@@ -128,17 +132,21 @@ public class MainActivity extends AppCompatActivity {
                     data = bf.readLine();
                     JSONArray jsonArray = new JSONArray(data);
                     JSONObject jObject = new JSONObject();
-                    for(int i =0;i<jsonArray.length();i++){
-                        jObject = jsonArray.getJSONObject(i);
-                        if(jObject.getString("username").equals(edUser.getText().toString())&&jObject.getString("password").equals(edPass.getText().toString())){
-                            Toast.makeText(MainActivity.this, "Welcome "+jObject.getString("full_name"), Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(MainActivity.this,MapsActivity.class);
-                            startActivity(myIntent);
+                        if(jsonArray.length() != 0){
+                            jObject = jsonArray.getJSONObject(0);
+                            Toast.makeText(MainActivity.this, "Welcome "+jObject.getString("fristname")+" "+jObject.getString("lastname"), Toast.LENGTH_SHORT).show();
+                            String permission = jObject.getString("permission");
+                            if(permission == "admin"){
+                                Intent myIntent = new Intent(MainActivity.this,MapsActivity.class);
+                                myIntent.putExtra("Permission_Admin","");
+                                startActivity(myIntent);
+                            }
+                            else if(permission == "user"){
+
+                            }
                         }
                         else
                             Toast.makeText(MainActivity.this, "Error Login", Toast.LENGTH_SHORT).show();
-
-                    }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
