@@ -7,6 +7,10 @@
     <string name="ARegis">Register</string>
     <string name="BSub">Submit</string>
     <string name="BCan">Cancel</string>
-
-
+    <string name="title_activity_maps">Map</string>
+    <string name="fname">First name</string>
+    <string name="lname">Last name</string>
+    <string name="positon">Position</string>
+    <string name="address">Address</string>
+    <string name="tel">Tel.</string>
 </resources>
