@@ -44,9 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        googleMap.setMyLocationEnabled(true);
-
-
+        mMap.setMyLocationEnabled(true);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -57,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent set = new Intent(MapsActivity.this,MainActivity.class);
                     LatLng position = myMarker.getPosition();
                     set.putExtra("MapClass","");
+                    Log.d("LAT",position.latitude+"");
                     set.putExtra("lat",position.latitude);
                     set.putExtra("lng",position.longitude);
                     startActivity(set);
