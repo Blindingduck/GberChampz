@@ -79,7 +79,31 @@ public class MainActivity extends AppCompatActivity {
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Insert to register.php
+                List<NameValuePair> nv = new ArrayList<NameValuePair>();
                 HttpClient hc = new  DefaultHttpClient();
+                HttpPost hp = new HttpPost("http://punarin.coolpage.biz/android/register.php");
+                nv.add(new BasicNameValuePair("username",edUser.getText().toString()));
+                nv.add(new BasicNameValuePair("password",edPassre.getText().toString()));
+                nv.add(new BasicNameValuePair("fristname",edFname.getText().toString()));
+                nv.add(new BasicNameValuePair("lastname",edLname.getText().toString()));
+                nv.add(new BasicNameValuePair("address",edAddress.getText().toString()));
+                nv.add(new BasicNameValuePair("tel",edTel.getText().toString()));
+                String[] position = edPosition.getText().toString().split("[:]");
+                nv.add(new BasicNameValuePair("lat",position[0]));
+                nv.add(new BasicNameValuePair("lng",position[1]));
+
+                try {
+                    hp.setEntity(new UrlEncodedFormEntity(nv));
+                    hc.execute(hp);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
@@ -135,14 +159,15 @@ public class MainActivity extends AppCompatActivity {
                         if(jsonArray.length() != 0){
                             jObject = jsonArray.getJSONObject(0);
                             Toast.makeText(MainActivity.this, "Welcome "+jObject.getString("fristname")+" "+jObject.getString("lastname"), Toast.LENGTH_SHORT).show();
-                            String permission = jObject.getString("permission");
-                            if(permission == "admin"){
+                            if(jObject.getString("permission").equals("admin")){
                                 Intent myIntent = new Intent(MainActivity.this,MapsActivity.class);
                                 myIntent.putExtra("Permission_Admin","");
                                 startActivity(myIntent);
                             }
-                            else if(permission == "user"){
-
+                            else if(jObject.getString("permission").equals("user")){
+                                Intent myIntent1 = new Intent(MainActivity.this,OrderActivity.class);
+                                myIntent1.putExtra("userid",jObject.getString("id"));
+                                startActivity(myIntent1);
                             }
                         }
                         else

@@ -13,4 +13,10 @@
     <string name="positon">Position</string>
     <string name="address">Address</string>
     <string name="tel">Tel.</string>
+    <string-array name="SizeGas">
+        <item>7 KG</item>
+        <item>15 KG</item>
+        <item>48 KG</item>
+    </string-array>
+
 </resources>

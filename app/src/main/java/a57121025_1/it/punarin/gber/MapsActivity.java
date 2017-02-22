@@ -21,6 +21,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     Marker myMarker = null;
     String name ="";
+    Intent getIntent= getIntent();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +47,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+        if(getIntent.hasExtra("Permission_Admin")){
+
+        }
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Intent getIntent = getIntent();
                 if(getIntent.hasExtra("classAddress")) {
                     mMap.clear();
                     myMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("I'm HERE"));
@@ -59,9 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     set.putExtra("lat",position.latitude);
                     set.putExtra("lng",position.longitude);
                     startActivity(set);
-                }
-                else if(getIntent.hasExtra("Permission_Admin")){
-
                 }
             }
         });
