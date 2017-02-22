@@ -51,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         if(getIntent.hasExtra("Permission_Admin")){
-            //TODO : Select fname,lname,address,lat,lag From user join order and add maker in map
+            //TODO : Select fname,lname,address,lat,lag From user join order and add maker
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(final Marker marker) {
