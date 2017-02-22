@@ -80,29 +80,67 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Insert to register.php
-                List<NameValuePair> nv = new ArrayList<NameValuePair>();
-                HttpClient hc = new  DefaultHttpClient();
-                HttpPost hp = new HttpPost("http://punarin.coolpage.biz/android/register.php");
-                nv.add(new BasicNameValuePair("username",edUser.getText().toString()));
-                nv.add(new BasicNameValuePair("password",edPassre.getText().toString()));
-                nv.add(new BasicNameValuePair("fristname",edFname.getText().toString()));
-                nv.add(new BasicNameValuePair("lastname",edLname.getText().toString()));
-                nv.add(new BasicNameValuePair("address",edAddress.getText().toString()));
-                nv.add(new BasicNameValuePair("tel",edTel.getText().toString()));
-                String[] position = edPosition.getText().toString().split("[:]");
-                nv.add(new BasicNameValuePair("lat",position[0]));
-                nv.add(new BasicNameValuePair("lng",position[1]));
 
-                try {
-                    hp.setEntity(new UrlEncodedFormEntity(nv));
-                    hc.execute(hp);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                if(edUserre.getText().length() > 0){
+                    if(edPassre.getText().length() > 0){
+                        if(edPassre2.getText().length() > 0){
+                            if(edPassre.getText() == edPassre2.getText()){
+                                if(edPosition.getText().length() > 0){
+                                    if(edFname.getText().length() > 0){
+                                        if(edLname.getText().length() > 0){
+                                            if(edAddress.getText().length() > 0){
+                                                if(edTel.getText().length() > 0){
+                                                    List<NameValuePair> nv = new ArrayList<NameValuePair>();
+                                                    HttpClient hc = new  DefaultHttpClient();
+                                                    HttpPost hp = new HttpPost("http://punarin.coolpage.biz/android/register.php");
+                                                    nv.add(new BasicNameValuePair("username",edUser.getText().toString()));
+                                                    nv.add(new BasicNameValuePair("password",edPassre.getText().toString()));
+                                                    nv.add(new BasicNameValuePair("fristname",edFname.getText().toString()));
+                                                    nv.add(new BasicNameValuePair("lastname",edLname.getText().toString()));
+                                                    nv.add(new BasicNameValuePair("address",edAddress.getText().toString()));
+                                                    nv.add(new BasicNameValuePair("tel",edTel.getText().toString()));
+                                                    String[] position = edPosition.getText().toString().split("[:]");
+                                                    nv.add(new BasicNameValuePair("lat",position[0]));
+                                                    nv.add(new BasicNameValuePair("lng",position[1]));
+
+                                                    try {
+                                                        hp.setEntity(new UrlEncodedFormEntity(nv));
+                                                        hc.execute(hp);
+                                                    } catch (UnsupportedEncodingException e) {
+                                                        e.printStackTrace();
+                                                    } catch (ClientProtocolException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                } else {
+                                                    Toast.makeText(MainActivity.this, "Please Enter Your Phone Number", Toast.LENGTH_SHORT).show();
+                                                } //Tel
+                                            } else {
+                                                Toast.makeText(MainActivity.this, "Please Enter Your Address", Toast.LENGTH_SHORT).show();
+                                            } //Address
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Please Enter Your LastName", Toast.LENGTH_SHORT).show();
+                                        } //Lname
+                                    } else  {
+                                        Toast.makeText(MainActivity.this, "Please Enter Your FirstName", Toast.LENGTH_SHORT).show();
+                                    }  //Fname
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Please Enter Your Position", Toast.LENGTH_SHORT).show();
+                                } // Position
+                            } else {
+                                Toast.makeText(MainActivity.this, "Your Password Incorrcet", Toast.LENGTH_SHORT).show();
+                            } //pass not match
+                        } else {
+                            Toast.makeText(MainActivity.this, "Please Enter Your Confirm Password", Toast.LENGTH_SHORT).show();
+                        } //pass 2
+                    } else {
+                        Toast.makeText(MainActivity.this, "Please Enter Your Password", Toast.LENGTH_SHORT).show();
+                    } //pass
+                } else {
+                    Toast.makeText(MainActivity.this, "Please Enter Your Your Username", Toast.LENGTH_SHORT).show();
+                } //user
 
 
             }
@@ -126,6 +164,18 @@ public class MainActivity extends AppCompatActivity {
                 regis.show();
                 Window regissize = regis.getWindow();
                 regissize.setLayout(LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+                /*
+                edUserre = (EditText) regis.findViewById(R.id.edUserre);
+                edPassre = (EditText) regis.findViewById(R.id.edPassre);
+                edPassre2 = (EditText) regis.findViewById(R.id.edPassre2);
+                edPosition = (EditText) regis.findViewById(R.id.edPosition);
+                edFname = (EditText) regis.findViewById(R.id.edFname);
+                edLname = (EditText) regis.findViewById(R.id.edLname);
+                edAddress = (EditText) regis.findViewById(R.id.edAddress);
+                edTel = (EditText) regis.findViewById(R.id.edTel);
+                */
+
+
             }
         });
 
@@ -139,6 +189,11 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //
+
+
+                //
                 String FromUser = edUser.getText().toString();
                 String FromPass = edPass.getText().toString();
                 List<NameValuePair> nv = new ArrayList<NameValuePair>();
