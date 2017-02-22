@@ -1,5 +1,7 @@
 package a57121025_1.it.punarin.gber;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -49,6 +51,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         if(getIntent.hasExtra("Permission_Admin")){
             //TODO : Select fname,lname,address,lat,lag From user join order and add maker in map
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(final Marker marker) {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(),17));
+                    AlertDialog mydialog = new AlertDialog.Builder(MapsActivity.this)
+                            .setTitle("Customername")
+                            .setMessage("Order Size Have Tank ? Price")
+                            .setNeutralButton("Delete Maker", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    marker.remove();
+                                }
+                            })
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            }).show();
+                }
+            });
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
