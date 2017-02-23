@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        super.onResume();
+        super.onStart();
         Intent get = getIntent();
-        if(get.hasExtra("MapClass")){
+        if(get.hasExtra("Map")){
             btnRegis.callOnClick();
             edPosition.setText(get.getExtras().getDouble("lat")+" : "+get.getExtras().getDouble("lng"));
         }
@@ -84,17 +84,32 @@ public class MainActivity extends AppCompatActivity {
                                                     List<NameValuePair> nv = new ArrayList<NameValuePair>();
                                                     HttpClient hc = new  DefaultHttpClient();
                                                     HttpPost hp = new HttpPost("http://punarin.coolpage.biz/android/register.php");
-                                                    nv.add(new BasicNameValuePair("username",edUser.getText().toString()));
-                                                    nv.add(new BasicNameValuePair("password",edPassre.getText().toString()));
-                                                    nv.add(new BasicNameValuePair("fristname",edFname.getText().toString()));
-                                                    nv.add(new BasicNameValuePair("lastname",edLname.getText().toString()));
-                                                    nv.add(new BasicNameValuePair("address",edAddress.getText().toString()));
-                                                    nv.add(new BasicNameValuePair("tel",edTel.getText().toString()));
-                                                    String[] position = edPosition.getText().toString().split("[:]");
-                                                    nv.add(new BasicNameValuePair("lat",position[0]));
-                                                    nv.add(new BasicNameValuePair("lng",position[1]));
-                                                        hp.setEntity(new UrlEncodedFormEntity(nv));
-                                                        hc.execute(hp);
+                                                        if(edPassre.getText().toString()!=edPassre2.getText().toString()){
+                                                            Toast.makeText(MainActivity.this, "Password Incorrect", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                        else {
+                                                            nv.add(new BasicNameValuePair("username", edUserre.getText().toString()));
+                                                            nv.add(new BasicNameValuePair("password", edPassre.getText().toString()));
+                                                            nv.add(new BasicNameValuePair("fristname", edFname.getText().toString()));
+                                                            nv.add(new BasicNameValuePair("lastname", edLname.getText().toString()));
+                                                            nv.add(new BasicNameValuePair("address", edAddress.getText().toString()));
+                                                            nv.add(new BasicNameValuePair("tel", edTel.getText().toString()));
+                                                            String[] position = edPosition.getText().toString().split("[:]");
+                                                            nv.add(new BasicNameValuePair("lat", position[0]));
+                                                            nv.add(new BasicNameValuePair("lng", position[1]));
+                                                            hp.setEntity(new UrlEncodedFormEntity(nv));
+                                                            hc.execute(hp);
+                                                            Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                                            edUserre.setText("");
+                                                            edPassre.setText("");
+                                                            edPassre2.setText("");
+                                                            edFname.setText("");
+                                                            edLname.setText("");
+                                                            edAddress.setText("");
+                                                            edPosition.setText("");
+                                                            edTel.setText("");
+                                                            regis.dismiss();
+                                                        }
                                                     } catch (UnsupportedEncodingException e) {
                                                         e.printStackTrace();
                                                     } catch (ClientProtocolException e) {
@@ -127,17 +142,6 @@ public class MainActivity extends AppCompatActivity {
                 regis.show();
                 Window regissize = regis.getWindow();
                 regissize.setLayout(LinearLayoutCompat.LayoutParams.FILL_PARENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-                /*
-                edUserre = (EditText) regis.findViewById(R.id.edUserre);
-                edPassre = (EditText) regis.findViewById(R.id.edPassre);
-                edPassre2 = (EditText) regis.findViewById(R.id.edPassre2);
-                edPosition = (EditText) regis.findViewById(R.id.edPosition);
-                edFname = (EditText) regis.findViewById(R.id.edFname);
-                edLname = (EditText) regis.findViewById(R.id.edLname);
-                edAddress = (EditText) regis.findViewById(R.id.edAddress);
-                edTel = (EditText) regis.findViewById(R.id.edTel);
-                */
-
 
             }
         });
@@ -152,11 +156,6 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //
-
-
-                //
                 String FromUser = edUser.getText().toString();
                 String FromPass = edPass.getText().toString();
                 List<NameValuePair> nv = new ArrayList<NameValuePair>();
@@ -167,37 +166,43 @@ public class MainActivity extends AppCompatActivity {
                 String data = "";
                 nv.add(new BasicNameValuePair("username",FromUser));
                 nv.add(new BasicNameValuePair("password",FromPass));
-                try {
-                    hp.setEntity(new UrlEncodedFormEntity(nv));
-                    hr = hc.execute(hp);
-                    bf = new BufferedReader(new InputStreamReader(hr.getEntity().getContent()));
-                    data = bf.readLine();
-                    JSONArray jsonArray = new JSONArray(data);
-                    JSONObject jObject = new JSONObject();
-                        if(jsonArray.length() != 0){
+
+                if(edUser.length()==0||edPass.length()==0){
+                    Toast.makeText(MainActivity.this, "Please Enter Username or Password", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    try {
+                        hp.setEntity(new UrlEncodedFormEntity(nv));
+                        hr = hc.execute(hp);
+                        bf = new BufferedReader(new InputStreamReader(hr.getEntity().getContent()));
+                        data = bf.readLine();
+                        JSONArray jsonArray = new JSONArray(data);
+                        JSONObject jObject = new JSONObject();
+                        if (jsonArray.length() != 0) {
                             jObject = jsonArray.getJSONObject(0);
-                            Toast.makeText(MainActivity.this, "Welcome "+jObject.getString("fristname")+" "+jObject.getString("lastname"), Toast.LENGTH_SHORT).show();
-                            if(jObject.getString("permission").equals("admin")){
-                                Intent myIntent = new Intent(MainActivity.this,MapsActivity.class);
-                                myIntent.putExtra("Permission_Admin","");
+                            Toast.makeText(MainActivity.this, "Welcome " + jObject.getString("fristname") + " " + jObject.getString("lastname"), Toast.LENGTH_SHORT).show();
+                            Log.e("per", jObject.getString("permission"));
+                            if (jObject.getString("permission").equals("admin")) {
+                                Intent myIntent = new Intent(MainActivity.this, MapsActivity.class);
+                                myIntent.putExtra("Permission_Admin", "");
                                 startActivity(myIntent);
-                            }
-                            else if(jObject.getString("permission").equals("user")){
-                                Intent myIntent1 = new Intent(MainActivity.this,OrderActivity.class);
-                                myIntent1.putExtra("userid",jObject.getString("id"));
+                            } else {
+                                Intent myIntent1 = new Intent(MainActivity.this, OrderActivity.class);
+                                myIntent1.putExtra("userid", jObject.getString("user_id"));
                                 startActivity(myIntent1);
                             }
-                        }
-                        else
+                        } else
                             Toast.makeText(MainActivity.this, "Error Login", Toast.LENGTH_SHORT).show();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (ClientProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
