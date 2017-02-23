@@ -85,7 +85,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Intent set = new Intent(MapsActivity.this,MainActivity.class);
                     LatLng position = myMarker.getPosition();
                     set.putExtra("MapClass","");
-                    Log.d("LAT",position.latitude+"");
                     set.putExtra("lat",position.latitude);
                     set.putExtra("lng",position.longitude);
                     startActivity(set);
